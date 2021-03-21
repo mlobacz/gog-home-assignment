@@ -18,12 +18,15 @@ def test_validate_input_positive(aggregator):
     )
     aggregator.validate_input(input_df)
 
-@pytest.mark.parametrize("col_1,col_2", [("wrong_col", "col_b"), ("col_a", "wrong_col")])
+
+@pytest.mark.parametrize(
+    "col_1,col_2", [("wrong_col", "col_b"), ("col_a", "wrong_col")]
+)
 def test_validate_input_negative(aggregator, col_1, col_2):
     """
     Check if input dataframe contains columns for aggregate calculations
     with negative result.
-    """   
+    """
     with pytest.raises(AssertionError):
         input_df = pd.DataFrame(
             {

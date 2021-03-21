@@ -69,7 +69,7 @@ class Aggregator:
         self.values_col = values_col
 
     def __repr__(self):
-        return f"Aggregator calculating {self.agg_names} from \"{self.values_col}\" grouped by \"{self.agg_col}\" column."
+        return f'Aggregator calculating {self.agg_names} from "{self.values_col}" grouped by "{self.agg_col}" column.'
 
     def _validate_aggregates(self, aggregates: list) -> None:
         logger.info(

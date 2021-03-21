@@ -92,5 +92,5 @@ if __name__ == "__main__":
         agg_col="hosts",
         values_col="values",
         aggregates=["min", "max", "avg", "sum"],
-        rename_cols={"hosts": "host"}
+        rename_cols={"hosts": "host"},
     )

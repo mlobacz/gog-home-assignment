@@ -58,16 +58,16 @@ Details can be found in docstrings of each module.
     source .venv/bin/activate
     ```
 
-4. Install python requirements
+4. Install pip-tools
 
     ```bash
-    pip install -r requirements.txt
+    pip install pip-tools
     ```
 
-5. Install `gog-data-processing` package containing `utilities` in "editable" mode
+5. Install python requirements
 
     ```bash
-    pip install -e .
+    pip-sync requirements.txt dev-requirements.txt
     ```
 
 6. Run tests followed by coverage report output
@@ -79,11 +79,5 @@ Details can be found in docstrings of each module.
 7. Finally, run the script for yourself and see if you like the output ;) If you did not change script configuration it should be saved into `output.csv`. I also commited my results into [this file](output_ml.csv).
 
     ```bash
-    python script.py
-    ```
-
-8. In fact, if you are not interested in tests and would like to only see the script output there is no need to install all the packages from `requirements.txt`. After point 3. just run:
-    ```bash
-    pip install .
     python script.py
     ```
