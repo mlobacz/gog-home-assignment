@@ -28,13 +28,13 @@ def main(
     Parameters:
         * input_path (str): path to the csv file containing data to process
         * output_path (str): path to the csv file to save results in
-        * columns_info (dict): dictionary containing information on input columns and their data types.
-            (keys: column names, values: data types)
+        * columns_info (dict): dictionary containing information on input columns and
+            their data types. (keys: column names, values: data types)
         * agg_col (str): name of the column to group data by
         * values_col (str): name of the column containing values to calculate aggregates
         * aggregates (list): list of aggregate calculations to apply
-        * rename_cols (dict) (optional): if provided, columns will be renamed based on given info
-            (keys: old column name, values: new column name)
+        * rename_cols (dict) (optional): if provided, columns will be renamed based on
+            given info (keys: old column name, values: new column name)
     """
     logging.basicConfig(
         format="%(levelname)s   %(asctime)s   %(module)s:%(funcName)s\n%(message)s",
@@ -75,7 +75,8 @@ def main(
 
     if rename_cols:
         logging.info(
-            f"Renaming columns: {[*rename_cols.keys()]} to {[*rename_cols.values()]} respectively."
+            f"Renaming columns: {[*rename_cols.keys()]} to",
+            f"{[*rename_cols.values()]} respectively.",
         )
         dframe.rename(columns=rename_cols, inplace=True)
 

@@ -61,7 +61,7 @@ def test_validate_input_negative():
 )
 def test_convert_to_list(cleaner, test_input, expected):
     """Convert from list-like looking string into actual list."""
-    out_list = cleaner._convert_to_list(test_input)
+    out_list = cleaner._convert_to_list(test_input)  # pylint: disable = W0212
     assert isinstance(out_list, list)
     assert out_list == expected
 
@@ -185,7 +185,7 @@ def test_filter_greater_than_zero_2_num_cols(helpers):
 
 
 def test_filter_greater_than_zero_no_numeric_cols():
-    """Raise AssertionError when there are no numeric columns in cleaner's column_info."""
+    """Raise AssertionError when there are no numeric columns in cleaner column_info."""
     cleaner = Cleaner(columns_info={"col_a": "string", "col_b": "string"})
     input_df = pd.DataFrame(
         {

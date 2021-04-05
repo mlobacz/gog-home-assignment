@@ -7,12 +7,13 @@ from utilities.cleaner import Cleaner
 from utilities.aggregator import Aggregator
 
 
-class Helpers:
+class Helpers:  # pylint: disable = R0903
     """
     Helper methods for the test suite.
 
     Methods:
-        * df_equal: wraps pandas.testing.assert_frame equal with output more copliant to testing framework
+        * df_equal: wraps pandas.testing.assert_frame equal with output
+            more copliant to testing framework
     """
 
     @staticmethod

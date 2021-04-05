@@ -19,10 +19,13 @@ class Cleaner:
             and their data types. (keys: column names, values: data types)
 
     Methods:
-        * validate_input: check if input dataframe contains columns provided in "columns_info"
-        * list_from_string: transform dataframe elements from list-like looking strings into lists
+        * validate_input: check if input dataframe
+            contains columns provided in "columns_info"
+        * list_from_string: transform dataframe elements from
+            list-like looking strings into lists
         * filter_uneven_rows: filter out rows with uneven number of elements
-        * filter_greater_than_zero: filter out rows with values in numeric columns not greater than 0
+        * filter_greater_than_zero: filter out rows with values
+            in numeric columns not greater than 0
         * drop_empty_string: filter out rows with empty string values
         * convert_types: cast columns to provided types
     """
@@ -56,7 +59,8 @@ class Cleaner:
             * AssertionError if dataframe columns do not match passed columns info
         """
         logger.info(
-            f"Validating input data columns: {[*dframe.columns]} with provided columns: {[*self.columns_info.keys()]}."
+            f"Validating input data columns: {[*dframe.columns]}",
+            f" with provided columns: {[*self.columns_info.keys()]}.",
         )
         assert [*dframe.columns] == [
             *self.columns_info.keys()
@@ -68,7 +72,8 @@ class Cleaner:
         e.g.: "["value1","value2"]" into actual list.
 
         Parameters:
-            * dframe (pd.DataFrame): dataframe where each element is list-like looking string
+            * dframe (pd.DataFrame): dataframe where each element
+                is list-like looking string
 
         Returns:
             * dframe (pd.DataFrame): dataframe with each element as a list
@@ -83,7 +88,8 @@ class Cleaner:
         Filter out rows with uneven number of elements.
 
         Parameters:
-            * dframe (pd.DataFrame): dataframe where each element is a sequence or a collection
+            * dframe (pd.DataFrame): dataframe where each element
+                is a sequence or a collection
 
         Returns:
             * dframe (pd.DataFrame): dataframe with uneven rows filtered out
@@ -98,27 +104,34 @@ class Cleaner:
         Filter out rows with values in numeric columns not greater than 0.
 
         Parameters:
-            * dframe (pd.DataFrame): dataframe with numeric (supported: "int" or "float") columns
+            * dframe (pd.DataFrame): dataframe with numeric
+                (supported: "int" or "float") columns
 
         Returns:
-            * dframe (pd.DataFrame): dataframe with non-positive values in numeric columns filtered out
+            * dframe (pd.DataFrame): dataframe with
+                non-positive values in numeric columns filtered out
 
         Raises:
-            * AssertionError if no numeric columns ("int" or "float") are found in cleaners "columns_info"
+            * AssertionError if no numeric columns
+                ("int" or "float") are found in cleaners "columns_info"
         """
         numeric_columns = [
             k for k, v in self.columns_info.items() if v in self.NUMERIC_TYPES
         ]
-        assert (
-            numeric_columns
-        ), f"No columns of numeric types in the provided columns_info. Numeric types are {self.NUMERIC_TYPES}."
+        assert numeric_columns, (
+            "No columns of numeric types in the provided columns_info.",
+            f" Numeric types are {self.NUMERIC_TYPES}.",
+        )
         logger.info(
-            f"Filtering out rows with values not greater than 0 in numeric columns: {numeric_columns}."
+            (
+                "Filtering out rows with values not greater than 0 ",
+                f"in numeric columns: {numeric_columns}.",
+            )
         )
         if len(numeric_columns) == 1:
             filt = dframe[numeric_columns[0]] > 0
         else:
-            # FIXME: Raises "ValueError: Cannot index with multidimensional key"
+            # FIXME: Raises "ValueError: Cannot index with multidimensional key" # pylint: disable = w0511
             filt = dframe[numeric_columns] > 0
         return dframe.loc[filt].reset_index(drop=True)
 
@@ -145,8 +158,8 @@ class Cleaner:
 
         Parameters:
             *dframe (pd.DataFrame): dataframe to perform casting on
-            *columns_info (dict) (optional): dictionary containing information on columns
-                and their data types. (keys: column names, values: data types)
+            *columns_info (dict) (optional): dictionary containing information on
+                columns and their data types. (keys: column names, values: data types)
 
         Returns:
             *dframe (pd.DataFrame): dataframe after column casting
@@ -156,5 +169,4 @@ class Cleaner:
         )
         if columns_info:
             return dframe.astype(columns_info)
-        else:
-            return dframe.astype(self.columns_info)
+        return dframe.astype(self.columns_info)
