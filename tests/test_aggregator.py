@@ -52,7 +52,7 @@ def test_validate_input_negative(aggregator, col_1, col_2):
 )
 def test_validate_aggregates_positive(input_aggs, aggregator):
     """Check if of provided aggregates is supported with positive result."""
-    aggregator._validate_aggregates(input_aggs)
+    aggregator._validate_aggregates(input_aggs)  # pylint: disable = W0212
 
 
 @pytest.mark.parametrize(
@@ -67,7 +67,7 @@ def test_validate_aggregates_positive(input_aggs, aggregator):
 def test_validate_aggregates_negative(input_aggs, aggregator):
     """Check if of provided aggregates is supported with negative result."""
     with pytest.raises(AssertionError):
-        aggregator._validate_aggregates(input_aggs)
+        aggregator._validate_aggregates(input_aggs)  # pylint: disable = W0212
 
 
 @pytest.mark.parametrize(

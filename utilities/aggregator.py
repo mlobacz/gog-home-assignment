@@ -23,17 +23,22 @@ class Aggregator:
         * max - calculates max value from a group of elements
         * avg - calculates average (mean) value of a group of elements
         * sum - calculates sum of all elements
-    Aggregate calculations can be extended through AGGREGATES_MAP by adding additional NumPy function.
+    Aggregate calculations can be extended through AGGREGATES_MAP by
+        adding additional NumPy function.
 
     Instance variables:
         * agg_col (str): name of the dataframe column to group data by
-        * values_col (str): name of the column containing values to calculate aggregates from
+        * values_col (str): name of the column containing values
+            to calculate aggregates from
         * aggregates (list): list of strings of aggregate functions names
-        * agg_funcs (list): list of aggregate functions objects based on passed "aggregates"
-        * agg_names (list): list of aggregate functions names based on passed "aggregates"
+        * agg_funcs (list): list of aggregate functions objects
+            based on passed "aggregates"
+        * agg_names (list): list of aggregate functions names
+            based on passed "aggregates"
 
     Methods:
-        * validate_input: check if input dataframe contains columns passed as "agg_col" and "values_col"
+        * validate_input: check if input dataframe contains columns
+            passed as "agg_col" and "values_col"
         * calculate_aggregates: perform aggregate calculations,
             return grouped df with results in corresponding columns
     """
@@ -51,11 +56,13 @@ class Aggregator:
 
         Parameters:
             * agg_col (str): name of the dataframe column to group data by
-            * values_col (str): name of the column containing values to calculate aggregates from
+            * values_col (str): name of the column containing values
+                to calculate aggregates from
             * aggregates (list): list of strings of aggregate functions names
 
         Raises:
-            * AssertionError if unsupported aggregate(s) in passed "aggregates" is/are found
+            * AssertionError if unsupported aggregate(s) in passed
+                "aggregates" is/are found
         """
         self.aggregates = aggregates
         self._validate_aggregates(self.aggregates)
@@ -69,31 +76,40 @@ class Aggregator:
         self.values_col = values_col
 
     def __repr__(self):
-        return f'Aggregator calculating {self.agg_names} from "{self.values_col}" grouped by "{self.agg_col}" column.'
+        return str(
+            f"Aggregator calculating {self.agg_names} from '{self.values_col}'",
+            f" grouped by '{self.agg_col}' column.",
+        )
 
     def _validate_aggregates(self, aggregates: list) -> None:
         logger.info(
-            f"Checking if each of the provided aggregates is supported. Supported aggregates are: {[*self.AGGREGATES_MAP.keys()]}."
+            (
+                "Checking if each of the provided aggregates is supported.",
+                f"Supported aggregates are: {[*self.AGGREGATES_MAP.keys()]}.",
+            )
         )
         supported_aggs = set(self.AGGREGATES_MAP.keys())
         input_aggs = set(aggregates)
         aggs_diff = input_aggs.difference(supported_aggs)
-        assert (
-            not aggs_diff
-        ), f"Provided aggregate calculation(s): {aggs_diff} not supported. List of supported calculations: {[*self.AGGREGATES_MAP.keys()]}"
+        assert not aggs_diff, (
+            f"Provided aggregate calculation(s): {aggs_diff} not supported.",
+            f"List of supported calculations: {[*self.AGGREGATES_MAP.keys()]}",
+        )
 
     def validate_input(self, dframe: pd.DataFrame) -> None:
         """
         Check if input dataframe contains columns for aggregate calculations.
 
         Parameters:
-            * dframe (pd.DataFrame): dataframe to seek columns for aggregate calculations
+            * dframe (pd.DataFrame): dataframe to seek columns for aggregate calculation
 
         Raises:
-            * AssertionError if some column for aggregate calculations is not found in dataframe
+            * AssertionError if some column for aggregate calculations
+                is not found in dataframe
         """
         logger.info(
-            f'Checking if input dataframe contains "{self.agg_col}" and "{self.values_col}" columns.'
+            f'Checking if input dataframe contains "{self.agg_col}"',
+            f'and "{self.values_col}" columns.',
         )
         for col in [self.agg_col, self.values_col]:
             assert col in [*dframe.columns], f"Input dataframe does not contain {col}."
@@ -103,13 +119,16 @@ class Aggregator:
         Perform aggregate calculations.
 
         Parameters:
-            * dframe (pd.DataFrame): dataframe with data to be grouped and used to perform calculations
+            * dframe (pd.DataFrame): dataframe with data to be
+                grouped and used to perform calculations
 
         Returns:
-            * dframe (pd.DataFrame): dataframe with grouped data and calculated aggregates
+            * dframe (pd.DataFrame): dataframe with grouped
+                data and calculated aggregates
         """
         logger.info(
-            f"Calculating: {self.agg_names} for: {self.values_col} grouped by: {self.agg_col}."
+            f"Calculating: {self.agg_names} for: {self.values_col}",
+            f"grouped by: {self.agg_col}.",
         )
         df_grouped = dframe.groupby(f"{self.agg_col}")
         dframe = df_grouped.agg({f"{self.values_col}": [*self.agg_funcs]}).reset_index()
